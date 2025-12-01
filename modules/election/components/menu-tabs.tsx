@@ -16,7 +16,7 @@ const MenuTabs = () => {
             className={
               selectedTab === tab.value
                 ? "text-[#121212] text-sm cursor-pointer font-semibold border-b-2 border-[#FE9206] pb-[20px]"
-                : "text-[#8A8A8A] text-sm cursor-pointer pb-[20px]"
+                : "text-[#8A8A8A] text-xs cursor-pointer pb-[20px]"
             }
             onClick={() => setSelectedTab(tab.value)}
           >

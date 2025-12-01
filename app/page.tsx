@@ -9,9 +9,9 @@ export default function Home() {
     <div className="  ">
       <AnnouncementBanner />
       <Hero />
-      <div className="container-brand flex-col-reverse md:flex-row space-y-[30px] flex gap-x-[46px]">
-<ElectionTracker />
-      <NewsSidebar />
+      <div className="container-brand flex-col-reverse md:flex-row space-y-[30px] gap-y-[20px] flex gap-x-[46px]">
+        <ElectionTracker />
+        <NewsSidebar />
       </div>
     </div>
   );
