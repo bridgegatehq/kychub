@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import MenuTabs from "../components/menu-tabs";
 import { ElectionStats } from "@/lib/constants";
+import UpcomingCandidatesSection from "./upcoming-candidates";
 const ElectionTracker = () => {
   return (
     <div className="bg-white w-full rounded-[12px] ">
@@ -33,8 +34,9 @@ const ElectionTracker = () => {
           </DropdownMenu>
         </div>
       </div>
+      
       <MenuTabs />
-      <div className="p-[20px] grid grid-cols-3 gap-4">
+      <div className="p-[20px] grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {ElectionStats.map((stat) => (
           <div key={stat.id} className="border-[#F5F5F5] p-[20px] bg-white shadow rounded-[9px]">
             <div className="flex justify-between w-full">
@@ -45,6 +47,8 @@ const ElectionTracker = () => {
           </div>
         ))}
       </div>
+
+      <UpcomingCandidatesSection />
     </div>
   );
 };

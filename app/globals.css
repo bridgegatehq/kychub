@@ -119,7 +119,7 @@
   body {
     @apply bg-background text-foreground;
   }
-  .container-brand {
+  .brand-container {
     @apply max-w-[1240px] p-8 mx-auto;
   }
 }

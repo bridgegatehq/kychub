@@ -14,7 +14,7 @@ const Hero = () => {
       className="relative min-h-[620px] bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url(/hero-bg.svg)" }}
     >
-      <div className="container-brand flex flex-col">
+      <div className="brand-container flex flex-col">
         <div className="py-[19px] flex justify-between w-full items-center">
           <Icons.logo />
           <div>
