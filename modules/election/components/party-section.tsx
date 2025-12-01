@@ -29,9 +29,9 @@ export default function PartySection({ party, candidates }: PartySectionProps) {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-border rounded-lg p-6 bg-card">
+      <div className="grid shadow grid-cols-1 lg:grid-cols-2 gap-6 border border-border rounded-lg p-6 bg-card">
         {candidates.map((candidate) => (
-          <div key={candidate.id} className="border-l-4 border-primary pl-4">
+          <div key={candidate.id} className="">
             <CandidateCard {...candidate} />
           </div>
         ))}

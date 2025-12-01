@@ -15,8 +15,8 @@ const UpcomingCandidatesSection = () => {
     {} as Record<string, typeof candidates>,
   )
   return (
-   <div className="">
-        <h1 className="text-4xl font-bold text-foreground mb-12">2027 Presidential Election Candidates</h1>
+   <div className="border-[#F5F5F5] border rounded-[18px] p-[20px]">
+        <h1 className="text-[18px] font-semibold text-foreground mb-2">2027 Presidential Election Candidates</h1>
 
         {Object.entries(groupedByParty).map(([party, partyCandidates]) => (
           <PartySection key={party} party={party} candidates={partyCandidates} />

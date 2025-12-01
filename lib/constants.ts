@@ -64,7 +64,7 @@ export const candidates = [
   {
     id: 3,
     name: "Israel Faizul",
-    party: "APC",
+    party: "APGA",
     age: 45,
     gender: "Male",
     position: "President",
@@ -73,7 +73,7 @@ export const candidates = [
   {
     id: 4,
     name: "Tolani Bayode",
-    party: "APC",
+    party: "APGA",
     age: 45,
     gender: "Male",
     position: "Vice President",
@@ -82,7 +82,7 @@ export const candidates = [
   {
     id: 5,
     name: "Adese Samson",
-    party: "APC",
+    party: "Accord",
     age: 45,
     gender: "Male",
     position: "President",
@@ -91,7 +91,7 @@ export const candidates = [
   {
     id: 6,
     name: "Solomon Ideh",
-    party: "APC",
+    party: "Accord",
     age: 45,
     gender: "Male",
     position: "Vice President",

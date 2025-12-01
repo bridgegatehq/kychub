@@ -10,7 +10,10 @@ import {
 import MenuTabs from "../components/menu-tabs";
 import { ElectionStats } from "@/lib/constants";
 import UpcomingCandidatesSection from "./upcoming-candidates";
+import { useState } from "react";
 const ElectionTracker = () => {
+  const [selectedTab, setSelectedTab] = useState("upcoming");
+
   return (
     <div className="bg-white w-full rounded-[12px] ">
       <div className="flex p-[20px] justify-between w-full">
@@ -34,21 +37,31 @@ const ElectionTracker = () => {
           </DropdownMenu>
         </div>
       </div>
-      
-      <MenuTabs />
-      <div className="p-[20px] grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {ElectionStats.map((stat) => (
-          <div key={stat.id} className="border-[#F5F5F5] p-[20px] bg-white shadow rounded-[9px]">
-            <div className="flex justify-between w-full">
-              <h2 className="text-[#8A8A8A]  text-xs">{stat.name}</h2>
-              <stat.Icon />
-            </div>
-            <p className="text-[#121212] font-semibold text-lg  md:text-[24px]">{stat.value}</p>
-          </div>
-        ))}
-      </div>
 
-      <UpcomingCandidatesSection />
+      <MenuTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      {selectedTab === "upcoming" && (
+        <>
+          <div className="p-[20px] grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ElectionStats.map((stat) => (
+              <div
+                key={stat.id}
+                className="border-[#F5F5F5] p-[20px] bg-white shadow rounded-[9px]"
+              >
+                <div className="flex justify-between w-full">
+                  <h2 className="text-[#8A8A8A]  text-xs">{stat.name}</h2>
+                  <stat.Icon />
+                </div>
+                <p className="text-[#121212] font-semibold text-lg  md:text-[24px]">
+                  {stat.value}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="p-[20px]">
+            <UpcomingCandidatesSection />
+          </div>
+        </>
+      )}
     </div>
   );
 };

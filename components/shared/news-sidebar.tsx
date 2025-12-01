@@ -2,7 +2,7 @@ import React from "react";
 
 const NewsSidebar = () => {
   return (
-    <aside className="bg-white p-[14px] flex-col flex space-y-[48px] md:p-[24px] rounded-[12px] max-w-[390px]">
+    <aside className="bg-white p-[14px] h-fit flex-col flex space-y-[48px] md:p-[24px] rounded-[12px] max-w-[390px]">
       <div>
         <h2 className="text-[14px] font-semibold md:text-[18px]">
           Explore lates articles and updated news
