@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ClientI18nProvider from "@/components/providers/ClientI18nProvider";
 
 const ppMori = localFont({
   src: [
@@ -56,8 +57,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ppMori.variable} bg-[#F7F7F7] ${geistMono.variable} antialiased`}>
-        {children}
+      <body
+        className={`${ppMori.variable} bg-[#F7F7F7] ${geistMono.variable} antialiased`}
+      >
+        <ClientI18nProvider>{children}</ClientI18nProvider>
       </body>
     </html>
   );

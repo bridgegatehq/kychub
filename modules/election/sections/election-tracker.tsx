@@ -3,36 +3,77 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import MenuTabs from "../components/menu-tabs";
 import { ElectionStats } from "@/lib/constants";
 import UpcomingCandidatesSection from "./upcoming-candidates";
 import { useState } from "react";
+import { useAppStore, ElectionType } from "@/store/useAppStore";
+import { useTranslation } from "react-i18next";
+
 const ElectionTracker = () => {
   const [selectedTab, setSelectedTab] = useState("upcoming");
+  const { electionType, setElectionType, language, setLanguage } =
+    useAppStore();
+  const { t } = useTranslation();
+
+  const electionTypes: ElectionType[] = [
+    "presidential",
+    "governorship",
+    "lga",
+    "wards",
+  ];
+
+  const languages = [
+    { code: "en", name: "English" },
+    { code: "ha", name: "Hausa" },
+    { code: "yo", name: "Yoruba" },
+    { code: "ig", name: "Igbo" },
+  ];
 
   return (
     <div className="bg-white w-full rounded-[12px] ">
-      <div className="flex p-[20px] justify-between w-full">
+      <div className="flex p-[20px] justify-between w-full items-center">
         <h2 className="font-semibold text-[18px] md:text-[24px]">
-          Election Tracker
+          {t("election_tracker")}
         </h2>
-        <div>
+        <div className="flex gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="text-[#F5F5F5] text-base bg-[#FE9206] rounded-[5px]">
-                Presidency
+              <Button variant="outline" className="capitalize">
+                {languages.find((l) => l.code === language)?.name || "Language"}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Presidency</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Governorship</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Logout</DropdownMenuLabel>
+              {languages.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code)}
+                >
+                  {lang.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="text-[#F5F5F5] text-base bg-[#FE9206] rounded-[5px] capitalize">
+                {t(electionType)}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {electionTypes.map((type) => (
+                <DropdownMenuItem
+                  key={type}
+                  onClick={() => setElectionType(type)}
+                  className="capitalize"
+                >
+                  {t(type)}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -48,7 +89,9 @@ const ElectionTracker = () => {
                 className="border-[#F5F5F5] p-[20px] bg-white shadow rounded-[9px]"
               >
                 <div className="flex justify-between w-full">
-                  <h2 className="text-[#8A8A8A]  text-xs">{stat.name}</h2>
+                  <h2 className="text-[#8A8A8A]  text-xs">
+                    {t(stat.i18nKey || stat.name)}
+                  </h2>
                   <stat.Icon />
                 </div>
                 <p className="text-[#121212] font-semibold text-lg  md:text-[24px]">
