@@ -28,10 +28,11 @@ export default function PartySection({
   logo,
 }: PartySectionProps) {
   return (
-    <section className="flex flex-col space-y-4 mb-4">
-      <div className="flex items-center justify-center gap-2">
+    <section className="flex flex-col space-y-6">
+      {/* Party Header */}
+      <div className="flex items-center justify-center gap-3 py-2">
         {logo ? (
-          <div className="relative w-8 h-8">
+          <div className="relative w-6 h-6">
             <Image
               src={logo}
               alt={`${party} logo`}
@@ -42,7 +43,9 @@ export default function PartySection({
         ) : (
           <span className="text-xl">{partyEmojis[party]}</span>
         )}
-        <h2 className="text-xl font-semibold text-[#2F2F2F]">{party}</h2>
+        <h2 className="text-lg md:text-xl font-semibold text-[#2F2F2F]">
+          {party}
+        </h2>
       </div>
 
       <div className="grid shadow grid-cols-1 lg:grid-cols-2 gap-6 border border-border rounded-lg p-6 ">

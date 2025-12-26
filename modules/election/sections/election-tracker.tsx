@@ -9,6 +9,7 @@ import {
 import MenuTabs from "../components/menu-tabs";
 import { ElectionStats } from "@/lib/constants";
 import UpcomingCandidatesSection from "./upcoming-candidates";
+import CandidatesTab from "./candidates-tab";
 import { useState } from "react";
 import { useAppStore, ElectionType } from "@/store/useAppStore";
 import { useTranslation } from "react-i18next";
@@ -105,6 +106,7 @@ const ElectionTracker = () => {
           </div>
         </>
       )}
+      {selectedTab === "candidate" && <CandidatesTab />}
     </div>
   );
 };
