@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { nigerianParties } from "@/utils/parties";
 
 const UpcomingCandidatesSection = () => {
-  const { electionYear, electionType } = useAppStore();
+  const { electionYear, electionType, selectedState } = useAppStore();
   const { t } = useTranslation();
 
   const groupedByParty = candidates.reduce((acc, candidate) => {
@@ -21,7 +21,7 @@ const UpcomingCandidatesSection = () => {
   return (
     <div className="border-[#F5F5F5] border rounded-[18px]  p-4">
       <h1 className="text-[18px] font-semibold text-black capitalize">
-        {electionYear} {t(electionType)} {t("upcoming_candidates")}
+        {electionYear} {selectedState} {t(electionType)} {t("upcoming_candidates")}
       </h1>
 
       {Object.entries(groupedByParty).map(([party, partyCandidates]) => {

@@ -10,13 +10,15 @@ import MenuTabs from "../components/menu-tabs";
 import { ElectionStats } from "@/lib/constants";
 import UpcomingCandidatesSection from "./upcoming-candidates";
 import CandidatesTab from "./candidates-tab";
+import PastElectionsTab from "./past-elections-tab";
 import { useState } from "react";
 import { useAppStore, ElectionType } from "@/store/useAppStore";
 import { useTranslation } from "react-i18next";
+import { nigerianStates } from "@/lib/past-elections-data";
 
 const ElectionTracker = () => {
   const [selectedTab, setSelectedTab] = useState("upcoming");
-  const { electionType, setElectionType, language, setLanguage } =
+  const { electionType, setElectionType, selectedState, setSelectedState, language, setLanguage } =
     useAppStore();
   const { t } = useTranslation();
 
@@ -41,7 +43,7 @@ const ElectionTracker = () => {
           {t("election_tracker")}
         </h2>
         <div className="flex gap-2">
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="capitalize">
                 {languages.find((l) => l.code === language)?.name || "Language"}
@@ -57,7 +59,7 @@ const ElectionTracker = () => {
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -83,6 +85,45 @@ const ElectionTracker = () => {
       <MenuTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       {selectedTab === "upcoming" && (
         <>
+          {/* State Selector */}
+          <div className="bg-[#FFF8EE] mx-[20px] mt-[20px] rounded-lg p-6">
+            <h3 className="text-center text-sm text-[#2F2F2F] mb-4 font-medium">
+              Select the state to View the details
+            </h3>
+            <div className="flex justify-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="bg-[#FE9206] text-white rounded-full px-8 py-2.5 text-sm font-medium min-w-[200px]">
+                    {selectedState}
+                    <svg
+                      className="ml-2 w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="max-h-[300px] overflow-y-auto">
+                  {nigerianStates.map((state) => (
+                    <DropdownMenuItem
+                      key={state}
+                      onClick={() => setSelectedState(state)}
+                    >
+                      {state}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
           <div className="p-[20px] grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {ElectionStats.map((stat) => (
               <div
@@ -107,6 +148,7 @@ const ElectionTracker = () => {
         </>
       )}
       {selectedTab === "candidate" && <CandidatesTab />}
+      {selectedTab === "past-elections" && <PastElectionsTab />}
     </div>
   );
 };
