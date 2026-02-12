@@ -5,15 +5,22 @@ import PartySection from "../components/party-section";
 import { useAppStore } from "@/store/useAppStore";
 import { useTranslation } from "react-i18next";
 import { nigerianParties } from "@/utils/parties";
+import { electionYears, nigerianStates } from "@/lib/past-elections-data";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const CandidatesTab = () => {
-  const { electionType } = useAppStore();
+  const { electionType, selectedState, setSelectedState } = useAppStore();
   const { t } = useTranslation();
   const [selectedYear, setSelectedYear] = useState<number>(2023);
 
-  const years = [2023, 2027];
-
+  // Group candidates by party
   const groupedByParty = candidates.reduce((acc, candidate) => {
     const party = candidate.party;
     if (!acc[party]) {
@@ -29,23 +36,30 @@ const CandidatesTab = () => {
     ? nigerianParties.find((p) => p.short === winnerParty)
     : null;
 
+  // Separate winner party candidates from the rest
+  const winnerCandidates = winnerParty ? groupedByParty[winnerParty] : null;
+  const otherParties = Object.entries(groupedByParty).filter(
+    ([party]) => party !== winnerParty
+  );
+
   return (
     <div className="p-[20px]">
       {/* Year Selector */}
       <div className="mb-6">
-        <h3 className="text-sm text-[#2F2F2F] mb-3 font-medium">
+        <h3 className="text-sm text-center text-[#2F2F2F] mb-4 font-medium">
           Select Election Year
         </h3>
-        <div className="flex gap-3">
-          {years.map((year) => (
+        <div className="flex gap-3 flex-wrap">
+          {electionYears.map((year) => (
             <button
               key={year}
               onClick={() => setSelectedYear(year)}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${
-                selectedYear === year
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all cursor-pointer ${selectedYear === year
                   ? "bg-[#FE9206] text-white shadow-md"
-                  : "bg-[#F5F5F5] text-[#2F2F2F] hover:bg-[#E5E5E5]"
-              }`}
+                  : year === 2027
+                    ? "bg-white text-[#2F2F2F] border border-[#2F2F2F] hover:bg-[#F5F5F5]"
+                    : "bg-transparent text-[#8A8A8A] hover:text-[#2F2F2F]"
+                }`}
             >
               {year}
             </button>
@@ -53,17 +67,58 @@ const CandidatesTab = () => {
         </div>
       </div>
 
-      {/* Main Content Card */}
-      <div className="bg-white border border-[#F5F5F5] rounded-[18px] p-6">
-        {/* Title */}
-        <h1 className="text-[20px] md:text-[24px] font-semibold text-black mb-6">
-          {selectedYear} {t(electionType)} Election Candidates
-        </h1>
+      {/* State Selector */}
+      <div className="bg-[#FFF8EE] rounded-lg p-6 mb-8">
+        <h3 className="text-center text-sm text-[#2F2F2F] mb-4 font-medium">
+          Select the state to View the details
+        </h3>
+        <div className="flex justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-[#FE9206] text-white rounded-full px-8 py-2.5 text-sm font-medium min-w-[200px]">
+                {selectedState}
+                <svg
+                  className="ml-2 w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="max-h-[300px] overflow-y-auto">
+              {nigerianStates.map((state) => (
+                <DropdownMenuItem
+                  key={state}
+                  onClick={() => setSelectedState(state)}
+                >
+                  {state}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
 
-        {/* Winner Badge - Only show for past elections */}
-        {winnerParty && winnerPartyData && (
-          <div className="flex flex-col items-center justify-center py-6 mb-8 bg-[#FAFAFA] rounded-lg">
-            <div className="flex items-center gap-2 mb-3">
+      {/* Title */}
+      <h1 className="text-[20px] md:text-[24px] font-semibold text-black mb-6">
+        {selectedYear} {selectedState}{" "}
+        {electionType.charAt(0).toUpperCase() + electionType.slice(1)} Election
+        Candidates
+      </h1>
+
+      {/* Winner Section */}
+      {winnerParty && winnerPartyData && winnerCandidates && (
+        <div className="mb-8">
+          {/* Winner Badge + Party Header */}
+          <div className="flex flex-col items-center justify-center py-4 mb-2">
+            <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl">🏆</span>
               <span className="text-base font-semibold text-[#2F2F2F]">
                 WINNER
@@ -86,27 +141,93 @@ const CandidatesTab = () => {
               </span>
             </div>
           </div>
-        )}
 
-        {/* Party Sections */}
-        <div className="space-y-8">
-          {Object.entries(groupedByParty).map(([party, partyCandidates]) => {
-            const partyLogo = nigerianParties.find(
-              (p) => p.short === party
-            )?.logo;
-            return (
-              <PartySection
-                key={party}
-                party={party}
-                candidates={partyCandidates}
-                logo={partyLogo}
-              />
-            );
-          })}
+          {/* Winner Candidates Card */}
+          <div className="grid shadow grid-cols-1 lg:grid-cols-2 gap-6 border border-border rounded-lg p-6">
+            {winnerCandidates.map((candidate) => (
+              <CandidateCardInline key={candidate.id} {...candidate} />
+            ))}
+          </div>
         </div>
+      )}
+
+      {/* Other Party Sections */}
+      <div className="space-y-8">
+        {otherParties.map(([party, partyCandidates]) => {
+          const partyLogo = nigerianParties.find(
+            (p) => p.short === party
+          )?.logo;
+          return (
+            <PartySection
+              key={party}
+              party={party}
+              candidates={partyCandidates}
+              logo={partyLogo}
+            />
+          );
+        })}
       </div>
     </div>
   );
 };
+
+// Inline candidate card component (reused from the shared one but kept inline for clarity)
+function CandidateCardInline({
+  name,
+  age,
+  gender,
+  position,
+  image,
+}: {
+  name: string;
+  age: number;
+  gender: string;
+  position: string;
+  image: string;
+}) {
+  const { t } = useTranslation();
+  return (
+    <div className="flex gap-4 p-3 odd:lg:border-r lg:border-[#E5E5E5]">
+      <div className="relative shrink-0">
+        <Image
+          src={image || "/placeholder.svg"}
+          alt={name}
+          width={100}
+          height={100}
+          className="rounded-md object-cover w-[100px] h-[100px]"
+        />
+      </div>
+
+      <div className="flex-1 flex flex-col justify-between">
+        <div>
+          <h3 className="text-base font-medium text-[#2F2F2F] mb-3">{name}</h3>
+
+          <div className="flex gap-4 text-sm mb-2">
+            <div>
+              <p className="text-xs text-[#8A8A8A] mb-1">{t("age")}</p>
+              <p className="text-sm text-[#2F2F2F] font-medium">{age}</p>
+            </div>
+            <div>
+              <p className="text-xs text-[#8A8A8A] mb-1">{t("gender")}</p>
+              <p className="text-sm text-[#2F2F2F] font-medium">{gender}</p>
+            </div>
+            <div>
+              <p className="text-xs text-[#8A8A8A] mb-1">{t("position")}</p>
+              <p className="text-sm text-[#2F2F2F] font-medium">{position}</p>
+            </div>
+          </div>
+        </div>
+
+        <a
+          href="#"
+          className="text-[#FE9206] hover:text-[#E58305] text-sm font-medium flex items-center gap-1 transition-colors"
+        >
+          {t("see_profile")}
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  );
+}
 
 export default CandidatesTab;

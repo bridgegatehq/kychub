@@ -2,10 +2,10 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 
 const tabs = [
   { id: 1, tab: "Upcoming Election", value: "upcoming" },
-  { id: 2, tab: "Candidate", value: "candidate" },
+  { id: 2, tab: "Candidates", value: "candidate" },
   { id: 3, tab: "Past Elections", value: "past-elections" },
 ];
-const MenuTabs = ({selectedTab, setSelectedTab}: {selectedTab: string; setSelectedTab: Dispatch<SetStateAction<string>>}) => {
+const MenuTabs = ({ selectedTab, setSelectedTab }: { selectedTab: string; setSelectedTab: Dispatch<SetStateAction<string>> }) => {
   return (
     <div className="border-b border-[#F5F5F5]">
       <div className="flex gap-x-[20px] px-[20px]">
